@@ -2,29 +2,32 @@
 
 Built on an Ubuntu image, as it appears Gluster will not work on an Alpine image without substantual workarounds
 
-## Local Use
-I will get these images published to Github shortly.  Until then:
 
-Copy down the repository:
+
+
+
+
+docker pull ghcr.io/goingoffroading/glusterserver:latest
+
+
+kubectl get pods | grep -e gluster
+
+kubectl exec --stdin --tty shell-demo -- /bin/bash
+
+
+
+
+
+
+
+## Build Image & Use
+
+Pull down the repository, move into the correct directory, build and run the image
 
 ```
-git clone https://github.com/GoingOffRoading/GlusterFS.git
-```
-Once it's been pulled down:
-
-```
-cd GlusterFS-Client && cd GlusterFS-Server
-```
-
-## Build the Docker image
-
-```
-sudo docker build -t glusterser .
-```
-
-## Deploy to Docker 
-
-```
+git clone https://github.com/GoingOffRoading/GlusterFS.git && \
+cd GlusterFS-Client && cd GlusterFS-Server && \
+sudo docker build -t glusterser . && \ 
 sudo docker run -d -it glusterserver:latest
 ```
 Get the container name:
