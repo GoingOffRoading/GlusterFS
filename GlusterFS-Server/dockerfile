@@ -1,0 +1,13 @@
+# Gluster v9.x 
+# Ubuntu image instead of Alpine for install simplicty of Launchpad: https://launchpad.net/~gluster/+archive/ubuntu/glusterfs-9
+
+FROM ubuntu:latest
+MAINTAINER Chase Westlye <cwestlye@gmail.com>
+
+# Install Gluster + dependancies 
+RUN apt-get update && \
+    apt-get install -y software-properties-common && \
+    add-apt-repository ppa:gluster/glusterfs-9 && \
+    apt-get update && \
+    apt-get install -y glusterfs-server
+
