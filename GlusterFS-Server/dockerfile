@@ -3,6 +3,7 @@
 
 FROM ubuntu:latest
 MAINTAINER Chase Westlye <cwestlye@gmail.com>
+LABEL org.opencontainers.image.source=https://github.com/goingoffroading/glusterfs
 
 # Install Gluster + dependancies 
 RUN apt-get update && \
@@ -11,8 +12,10 @@ RUN apt-get update && \
     apt-get update && \
     apt-get install -y glusterfs-server
 
+#Nothing to add here, saving for time being
 #COPY /gluster-entrypoint.sh /
 #RUN chmod +x /gluster-entrypoint.sh
 #ENTRYPOINT [ "/bin/sh", "/gluster-entrypoint.sh" ]
 
+#To hold the container open
 CMD ["/usr/sbin/init"]
