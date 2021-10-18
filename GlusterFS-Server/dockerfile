@@ -24,4 +24,7 @@ VOLUME ["/data", "/var/lib/glusterd"]
 #ENTRYPOINT [ "/bin/bash", "/gluster-entrypoint.sh" ]
 
 #To hold the container open
-CMD ["glusterd", "-N", "--log-file=/dev/stdout"]
+#CMD ["glusterd", "-N", "--log-file=/dev/stdout"]
+#CMD ["glusterd"]
+#CMD ["glusterd peer status"]
+CMD ["/usr/sbin/glusterd","-N"]

@@ -72,6 +72,9 @@ Then get your Gluster pods
 $ kubectl get pods -o wide | grep -e "NAME\|gluster"
 ```
 Sample output:
+
+Found an issue that did not show up in the local Docker run testing... Investigating
+
 ```
 $ kubectl get pods -o wide | grep -e "NAME\|gluster"
 NAME                                   READY   STATUS             RESTARTS      AGE     IP              NODE                          NOMINATED NODE   READINESS GATES
