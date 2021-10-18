@@ -6,6 +6,7 @@ echo "Nuke what Conatiner?"
 read container
 
 echo "Going to flat out murder $container"
+sleep 2
 sudo docker container stop $container
 
 echo "Destroying the evidence"
