@@ -1,7 +1,15 @@
 #!/bin/bash
 
+echo "Building the Docker Image"
 sudo docker build --no-cache -t glusterserver . 
 
-sudo docker container ls | grep -e 'CONTAINER\|gluster'
+echo "Running the Docker Image"
+sudo docker run -d -it glusterserver
 
-echo "Next Step: sudo docker run ––name CONTAINER-NAME –d nginx"
+echo "Done"
+sudo docker container ls -a | grep -e 'CONTAINER\|gluster'
+
+echo "What is the Gluster container name?"
+
+read container
+sudo docker exec –it $container /bin/bash

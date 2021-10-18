@@ -1,6 +1,4 @@
 #!/bin/bash
 
-# Get the current gluster version
-echo "gluster version"
-gluster --version
-
+#Needed to start the Gluster Daemon in the container
+glusterd
