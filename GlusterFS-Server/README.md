@@ -58,3 +58,43 @@ in all cases as published by the Free Software Foundation.
 ```
 # ToDo:
 Add volume mounts to persist data 
+
+
+
+
+Notes for figuring out CMD:
+
+CMD ["glusterd", "-N", "--log-file=/dev/stdout"]
+https://github.com/metal3d/docker-glusterfs/blob/master/Dockerfile
+
+CMD ["/usr/sbin/init"]
+https://github.com/gluster/gluster-containers/blob/master/Fedora/Dockerfile
+
+
+ENTRYPOINT ["/usr/local/bin/update-params.sh"]
+CMD ["/usr/sbin/init"]
+https://github.com/gluster/gluster-containers/blob/master/CentOS/Dockerfile
+
+
+CMD ["/usr/sbin/glusterd","-N"]
+https://github.com/blang/gluster-server/blob/master/Dockerfile
+
+ENTRYPOINT ["/usr/local/bin/run.sh"]
+https://github.com/angelnu/docker-glusterfs/blob/master/Dockerfile
+
+
+https://github.com/testdasi/gluster-server/blob/main/Dockerfile
+RUN echo "$(date "+%d.%m.%Y %T") Built from ${FRM} with tag ${TAG}" >> /build_date.info
+
+while true
+do
+    echo '[info] Quick status:'
+    echo ''
+    gluster peer status
+    echo ''
+    gluster volume status
+    echo ''
+    sleep $sleep_time
+done
+https://github.com/testdasi/gluster-server/blob/main/scripts/entrypoint.sh
+
