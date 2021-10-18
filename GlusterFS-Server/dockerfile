@@ -8,7 +8,6 @@ LABEL org.opencontainers.image.source=https://github.com/goingoffroading/gluster
 # Install Gluster + dependancies 
 RUN apt-get update && \
     apt-get install -y software-properties-common && \
-    apt-get install iputils  && \
     add-apt-repository ppa:gluster/glusterfs-9 && \
     apt-get update && \
     apt-get install -y glusterfs-server
