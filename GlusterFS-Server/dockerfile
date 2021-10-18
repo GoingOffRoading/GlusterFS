@@ -8,17 +8,17 @@ LABEL org.opencontainers.image.source=https://github.com/goingoffroading/gluster
 # Install Gluster + dependancies 
 RUN apt-get update && \
     apt-get install -y software-properties-common && \
+    apt-get install iputils  && \
     add-apt-repository ppa:gluster/glusterfs-9 && \
     apt-get update && \
     apt-get install -y glusterfs-server
 
-#Nothing to add here, saving for time being
-#COPY /gluster-entrypoint.sh /
-#RUN chmod +x /gluster-entrypoint.sh
-#ENTRYPOINT [ "/bin/sh", "/gluster-entrypoint.sh" ]
+#/data for mounting data
+#/var/lib/glusterd for the Gluster config
+VOLUME ["/data", "/var/lib/glusterd"]
 
 #Ports list from the original repo: https://github.com/gluster/gluster-containers/blob/master/CentOS/Dockerfile
 EXPOSE 2222 111 245 443 24007 2049 8080 6010 6011 6012 38465 38466 38468 38469 49152 49153 49154 49156 49157 49158 49159 49160 49161 49162
 
 #To hold the container open
-CMD ["/usr/sbin/init"]
+CMD ["/usr/sbin/glusterd","-Y"]
