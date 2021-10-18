@@ -1,0 +1,49 @@
+---
+kind: DaemonSet
+apiVersion: apps/v1
+metadata:
+  name: glusterfs
+  labels:
+    app: glusterfs
+spec:
+  selector:
+    matchLabels:
+      app: glusterfs
+  template:
+    metadata:
+      name: glusterfs
+      labels:
+        app: glusterfs
+    spec:
+      hostNetwork: true
+      containers:
+      - image: ghcr.io/goingoffroading/glusterserver:latest
+        imagePullPolicy: Always
+        name: glusterfs
+        volumeMounts:
+        - name: glusterfs-etc
+          mountPath: "/etc/glusterfs"
+        - name: glusterfs-log
+          mountPath: "/var/log/glusterfs"
+        - name: glusterfs-lib
+          mountPath: "/var/lib/glusterd"
+        - name: glusterfs-data
+          mountPath: "/data/"
+        securityContext:
+          capabilities: {}
+          privileged: true
+      nodeSelector:
+        storagenode: glusterfs
+      volumes:
+      - name: glusterfs-etc
+        hostPath:
+          path: "/gluster2/etc"
+      - name: glusterfs-log
+        hostPath:
+          path: "/gluster2/log"
+      - name: glusterfs-lib
+        hostPath:
+          path: "/gluster2/lib"
+      - name: glusterfs-data
+        hostPath:
+          path: "/gluster2/data"
