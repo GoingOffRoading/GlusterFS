@@ -8,14 +8,11 @@ LABEL org.opencontainers.image.source=https://github.com/goingoffroading/gluster
 ENV GLUSTER_VERSION 9
 
 # Install Gluster + dependancies 
-RUN set -xe; \
-    yum install -y centos-release-gluster${GLUSTER_VERSION/./}.noarch; \
-    yum install -y glusterfs-server; \
-    yum clean all; 
-
-COPY /gluster-entrypoint.sh /
-RUN chmod +x /gluster-entrypoint.sh
-ENTRYPOINT [ "/bin/bash", "/gluster-entrypoint.sh" ]
+RUN set -xe && \
+    yum install -y centos-release-gluster${GLUSTER_VERSION/./}.noarch && \
+    yum install -y glusterfs-server && \
+    yum clean all && \
+    glusterd
 
 #CMD ["glusterd", "-N", "--log-file=/dev/stdout"]
 CMD ["/usr/sbin/init"]
