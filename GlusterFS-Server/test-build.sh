@@ -10,4 +10,4 @@ echo "Done"
 sleep 5
 sudo docker container ls -a | grep -e 'CONTAINER\|gluster'
 
-echo "Next run: sudo docker exec –it $container /bin/bash"
+echo "Next run: sudo docker exec –it CONTAINER-NAME /bin/bash"
