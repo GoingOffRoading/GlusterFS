@@ -2,7 +2,6 @@
 # Ubuntu image instead of Alpine for install simplicty of Launchpad: https://launchpad.net/~gluster/+archive/ubuntu/glusterfs-9
 
 FROM centos:centos8
-MAINTAINER Chase Westlye <cwestlye@gmail.com>
 LABEL org.opencontainers.image.source=https://github.com/goingoffroading/glusterfs
 
 ENV GLUSTER_VERSION 9
@@ -14,5 +13,5 @@ RUN set -xe && \
     yum clean all 
 #    glusterd
 
-#CMD ["glusterd", "-N", "--log-file=/dev/stdout"]
-CMD ["/usr/sbin/init"]
+CMD ["glusterd", "-N", "--log-file=/dev/stdout"]
+#CMD ["/usr/sbin/init"]
