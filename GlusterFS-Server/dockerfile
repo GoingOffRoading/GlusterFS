@@ -11,8 +11,8 @@ ENV GLUSTER_VERSION 9
 RUN set -xe && \
     yum install -y centos-release-gluster${GLUSTER_VERSION/./}.noarch && \
     yum install -y glusterfs-server && \
-    yum clean all && \
-    glusterd
+    yum clean all 
+#    glusterd
 
 #CMD ["glusterd", "-N", "--log-file=/dev/stdout"]
 CMD ["/usr/sbin/init"]
