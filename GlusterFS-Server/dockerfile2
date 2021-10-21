@@ -1,0 +1,18 @@
+# Gluster v9.x 
+# Ubuntu image instead of Alpine for install simplicty of Launchpad: https://launchpad.net/~gluster/+archive/ubuntu/glusterfs-9
+
+FROM centos:centos8
+LABEL org.opencontainers.image.source=https://github.com/goingoffroading/glusterfs
+
+ENV GLUSTER_VERSION 9
+
+# Install Gluster + dependancies 
+RUN set -xe && \
+    yum install -y centos-release-gluster${GLUSTER_VERSION/./}.noarch && \
+    yum install -y glusterfs-server && \
+    yum clean all 
+    #&& \
+    #glusterd --log-file=/dev/stdout
+
+
+CMD ["/usr/sbin/init"]
