@@ -12,5 +12,13 @@ RUN apt-get update && \
     apt-get install -y glusterfs-server
 
 CMD ["/usr/sbin/init"]
+#CMD ["service glusterd start"]
 
-RUN glusterd --version
+
+#COPY /gluster-entrypoint.sh /
+#RUN chmod +x /gluster-entrypoint.sh
+
+#ENTRYPOINT [ "/bin/bash", "/gluster-entrypoint.sh" ]
+#RUN glusterd --version
+
+#CMD service glusterd start 

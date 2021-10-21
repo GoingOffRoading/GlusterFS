@@ -4,7 +4,7 @@ echo "Building the Docker Image"
 sudo docker build --no-cache -t glusterserver . 
 
 echo "Running the Docker Image"
-sudo docker run -d glusterserver
+sudo docker run -d --privileged glusterserver
 
 echo "Done"
 sleep 5

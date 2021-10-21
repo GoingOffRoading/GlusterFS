@@ -1,5 +1,5 @@
 #!/bin/bash
 
-glusterd --log-level ERROR
-gluster peer status
+service glusterd start
+gluser peer status
 gluster volume status
