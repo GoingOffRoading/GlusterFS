@@ -1,4 +1,4 @@
-# GlusterFS Docker Container
+# GlusterFS Server Docker Container
 For use in Docker & Kubernetes
 
 ## Problem Being Solved
@@ -9,23 +9,30 @@ In my GlusterFS journey, there have been gaps that have been dificult to fill:
 * As of October 2021, [GlusterFS is up to it's August 2021 v9.4 release](https://docs.gluster.org/en/latest/release-notes/9.4/) but the [Gluster Git/Docker Container is capped at it's March 2018 v4.0 release](https://github.com/gluster/gluster-containers)
 * Gluster Client crashes on run, [no documentation](https://github.com/gluster/gluster-containers/tree/master/gluster-client)
 
+So I set out to build my own GlusterFS containers.  What could go wrong!
 
-# Docker-Run Example 
-Warning...  This example is temporary.  It does not include a volume for storing the Gluster config, which means when the container goes, so does your configurations.  Stay tuned.
 
-Pull down the image:
-
-```
-$ docker pull ghcr.io/goingoffroading/glusterserver:latest
-```
-
-Then run:
+# GlusterFS Server
+## Docker-Run Example 
 
 ```
-$ sudo docker run --net host --privileged --name glusterserver -v /hostdata:/data  ghcr.io/goingoffroading/glusterserver:latest
+$ sudo docker pull ghcr.io/goingoffroading/glusterserver:latest 
+$ sudo docker run --net host --privileged --name glusterserver ghcr.io/goingoffroading/glusterserver:latest
 ```
+Add volumes as you see fit:
 
-Alternatively, run Gluster-Docker-Run.sh from this repo
+Directory | Notes
+---------- | ----------
+/data | Really any directory works here.  This will be the directory you Gluster Volume maps to
+/etc/glusterfs | Gluster Configs
+/var/lib/glusterd | Gluster Metadata
+/var/log/glusterfs | Gluster Logs
+
+These directories will be needed to persist data between container restarts.
+
+Full example from the [Gluser Docker Github](https://github.com/gluster/gluster-containers) using [this repo's Gluster Server Docker Image](https://github.com/GoingOffRoading/GlusterFS/pkgs/container/glusterserver)
+
+    $ docker run -v /etc/glusterfs:/etc/glusterfs:z -v /var/lib/glusterd:/var/lib/glusterd:z -v /var/log/glusterfs:/var/log/glusterfs:z -v /sys/fs/cgroup:/sys/fs/cgroup:ro -d --privileged=true --net=host -v /data/:/data ghcr.io/goingoffroading/glusterserver:latest
 
 # Kubernetes DaemonSet
 DaemonSets are kind of cool as they can deploy to all relevant nodes...  Which makes deployment easy, and future scalability VERY easy.
@@ -86,15 +93,7 @@ Next is to SSH into one of the Gluster pods to setup the cluster.
 ```
 kubectl exec --stdin --tty CONTAINER-NAME -- /bin/bash
 ```
-I don't think which pod you select matters, but I pick the first Pod/Node in the series to SSH into:
-```
-kubectl exec --stdin --tty glusterfs-q2xb7 -- /bin/bash
-```
+From here, add Volumes, manage GlusterFS Server as needed
 
-
-# Todo:
-
-* Need to update docker run example to include volume for storing Gluster config
-* Clean up the Kubernetes example
-* Add a docker-compose example
-* Have somebody that actually knows what they are doing review this stuff
+# GlusterFS Client Docker Container
+Next in the project 
