@@ -1,47 +1,44 @@
 # Gluster Server
 
-Built on an Ubuntu image, as it appears Gluster will not work on an Alpine image without substantual workarounds
+Built on an Ubuntu Docker image instead of RedHat or CentOS, for no real reason...  
 
+## Dependancies
 
+- Have Docker Installed: [Ubuntu Docker Install Docs](https://docs.docker.com/engine/install/ubuntu/#install-using-the-repository)
+- Have Git (Github) installed: [Ubuntu Git Install Docs](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)
+## Local Docker Image Build & Use
 
-
-
-
-docker pull ghcr.io/goingoffroading/glusterserver:latest
-
-
-kubectl get pods | grep -e gluster
-
-kubectl exec --stdin --tty shell-demo -- /bin/bash
-
-
-
-
-
-
-
-## Build Image & Use
-
-Pull down the repository, move into the correct directory, build and run the image
+Pull down the repository, move into the correct directory, build and run the image the image using the test-run.sh bash script.
 
 ```
 git clone https://github.com/GoingOffRoading/GlusterFS.git && \
-cd GlusterFS-Client && cd GlusterFS-Server && \
-sudo docker build -t glusterser . && \ 
-sudo docker run -d -it glusterserver:latest
+cd GlusterFS/GlusterFS-Server && \
+sudo chmox +x test-run.sh && \
+./test-run.sh
 ```
+
+When the build is finished, a _sudo docker container ls -a | grep -e 'CONTAINER\|gluster_ is run in the test-run.sh to display the name and status of the container, as well as the next step:
+
+    Running the Docker Image
+    2a44c04324e9cc1ec0ce71f556bc74467ac88cf1ec1b3be9784db3574d03cd23
+    Done
+    CONTAINER ID   IMAGE                                  COMMAND                  CREATED         STATUS                      PORTS     NAMES
+    2a44c04324e9   glusterserver                          "/bin/sh -c 'gluster…"   4 seconds ago   Up 3 seconds                          dreamy_archimedes
+   k8s_POD_youtubedlglustertest-6789896868-pmhx7_default_a7ee3535-8ab0-4ab1-84bb-be15faaf5143_0
+    Next run: sudo docker exec –it CONTAINER-NAME /bin/bash
+
 Get the container name:
 
 ```
 $ sudo docker container ps -a | grep -e gluster
 d0955fda88eb   glusterserver:latest                   "/usr/sbin/init"         2 minutes ago    Up 2 minutes                            sharp_merkle
 ```
-The container's name here is 'sharp_merkle'.  Your container name will be different.  
+The container's name in this example is 'sharp_merkle'.  Your container name will be different, but it will be in the same location as 'sharp_merkle' is in this example.  
 
-Then SSH into the container using the container name:
+Then SSH into the container using your container name container name:
 
 ```
-r$ sudo docker exec -it sharp_merkle /bin/bash
+$ sudo docker exec -it sharp_merkle /bin/bash
 ```
 Gluster commands now avaliable for us:
 
@@ -56,45 +53,35 @@ General Public License, version 3 or any later version (LGPLv3
 or later), or the GNU General Public License, version 2 (GPLv2),
 in all cases as published by the Free Software Foundation.
 ```
-# ToDo:
-Add volume mounts to persist data 
+When done, the GlusterFS Server test-run container and image can be knocked down with the test-destroy.sh:
 
+    sudo chmod +x test-destroy.sh && ./test-destroy.sh
 
+Provide the prompt with the NAME of the container:
 
+    $ ./test-destroy.sh
+    CONTAINER ID   IMAGE                                  COMMAND                  CREATED         STATUS                      PORTS     NAMES
+    2a44c04324e9   glusterserver                          "/bin/sh -c 'gluster…"   5 minutes ago   Up 5 minutes                          dreamy_archimedes
+    Nuke what Conatiner?
 
-Notes for figuring out CMD:
+test-destroy.sh will take care of stopping & removing the GlusterFS Server Docker container, as well as the Docker image test-run.sh had built:
 
-CMD ["glusterd", "-N", "--log-file=/dev/stdout"]
-https://github.com/metal3d/docker-glusterfs/blob/master/Dockerfile
+    dreamy_archimedes
+    Going to flat out murder dreamy_archimedes
+    dreamy_archimedes
+    Destroying the evidence
+    dreamy_archimedes
+    Nuking Images
+    Error: No such image: ghcr.io/goingoffroading/glusterserver
+    Untagged: glusterserver:latest
+    Deleted: sha256:94c589494a79fad1f41f956cda33afd0427d1a22a8517a8d7f54c45e5267bdd0
+    Deleted: sha256:23a8fc3af0de00cc37d0a85258aed4f4a3df6f2e8061bd43c4b620fc6d9e6e89
+    Deleted: sha256:81890c20486aebb0595ea0b6a5e98740207f2946debf3d1526da8bb6de12de5c
+    Deleted: sha256:1e2f922fde6fec5f3f70aa0ef1edcf11037246fe9ec103e477153921027cc2d1
 
-CMD ["/usr/sbin/init"]
-https://github.com/gluster/gluster-containers/blob/master/Fedora/Dockerfile
+## Deploying the GlusterFS Server container
 
+Edit the test.deploy.sh for your container repository, run  test-deploy.sh to deploy your image there:
 
-ENTRYPOINT ["/usr/local/bin/update-params.sh"]
-CMD ["/usr/sbin/init"]
-https://github.com/gluster/gluster-containers/blob/master/CentOS/Dockerfile
-
-
-CMD ["/usr/sbin/glusterd","-N"]
-https://github.com/blang/gluster-server/blob/master/Dockerfile
-
-ENTRYPOINT ["/usr/local/bin/run.sh"]
-https://github.com/angelnu/docker-glusterfs/blob/master/Dockerfile
-
-
-https://github.com/testdasi/gluster-server/blob/main/Dockerfile
-RUN echo "$(date "+%d.%m.%Y %T") Built from ${FRM} with tag ${TAG}" >> /build_date.info
-
-while true
-do
-    echo '[info] Quick status:'
-    echo ''
-    gluster peer status
-    echo ''
-    gluster volume status
-    echo ''
-    sleep $sleep_time
-done
-https://github.com/testdasi/gluster-server/blob/main/scripts/entrypoint.sh
+    sudo chmod +x test-deploy.sh && ./test-deploy.sh
 

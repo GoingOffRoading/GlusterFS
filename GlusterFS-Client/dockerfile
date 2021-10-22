@@ -1,4 +1,6 @@
-#Ubuntu Image
+# Gluster v9.x 
+# Ubuntu image instead of Alpine for install simplicty of Launchpad: https://launchpad.net/~gluster/+archive/ubuntu/glusterfs-9
+
 FROM ubuntu:latest
 LABEL org.opencontainers.image.source=https://github.com/goingoffroading/glusterfs
 
@@ -9,5 +11,14 @@ RUN apt-get update && \
     apt-get update && \
     apt-get install -y glusterfs-server
 
-# Start the Docker daemon
+#CMD ["/usr/sbin/init"]
 CMD glusterd -N
+
+
+#COPY /gluster-entrypoint.sh /
+#RUN chmod +x /gluster-entrypoint.sh
+
+#ENTRYPOINT [ "/bin/bash", "/gluster-entrypoint.sh" ]
+#RUN glusterd --version
+
+#CMD service glusterd start 
