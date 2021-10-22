@@ -17,7 +17,7 @@ spec:
     spec:
       hostNetwork: true
       containers:
-      - image: ghcr.io/goingoffroading/glusterserver:latest
+      - image: ghcr.io/goingoffroading/glusterfs-server:latest
         imagePullPolicy: Always
         name: glusterfs
         volumeMounts:

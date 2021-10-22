@@ -72,7 +72,6 @@ test-destroy.sh will take care of stopping & removing the GlusterFS Server Docke
     Destroying the evidence
     dreamy_archimedes
     Nuking Images
-    Error: No such image: ghcr.io/goingoffroading/glusterserver
     Untagged: glusterserver:latest
     Deleted: sha256:94c589494a79fad1f41f956cda33afd0427d1a22a8517a8d7f54c45e5267bdd0
     Deleted: sha256:23a8fc3af0de00cc37d0a85258aed4f4a3df6f2e8061bd43c4b620fc6d9e6e89

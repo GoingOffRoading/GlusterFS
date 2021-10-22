@@ -16,8 +16,8 @@ So I set out to build my own GlusterFS containers.  What could go wrong!
 ## Docker-Run Example 
 
 ```
-$ sudo docker pull ghcr.io/goingoffroading/glusterserver:latest 
-$ sudo docker run --net host --privileged --name glusterserver ghcr.io/goingoffroading/glusterserver:latest
+$ sudo docker pull ghcr.io/goingoffroading/glusterfs-server:latest
+$ sudo docker run --net host --privileged --name glusterserver ghcr.io/goingoffroading/glusterfs-server:latest
 ```
 Add volumes as you see fit:
 
@@ -30,9 +30,9 @@ Directory | Notes
 
 These directories will be needed to persist data between container restarts.
 
-Full example from the [Gluser Docker Github](https://github.com/gluster/gluster-containers) using [this repo's Gluster Server Docker Image](https://github.com/GoingOffRoading/GlusterFS/pkgs/container/glusterserver)
+Full example from the [Gluser Docker Github](https://github.com/gluster/gluster-containers) using [this repo's Gluster Server Docker Image](https://github.com/GoingOffRoading/GlusterFS/pkgs/container/glusterfs-server)
 
-    $ docker run -v /etc/glusterfs:/etc/glusterfs:z -v /var/lib/glusterd:/var/lib/glusterd:z -v /var/log/glusterfs:/var/log/glusterfs:z -v /sys/fs/cgroup:/sys/fs/cgroup:ro -d --privileged=true --net=host -v /data/:/data ghcr.io/goingoffroading/glusterserver:latest
+    $ docker run -v /etc/glusterfs:/etc/glusterfs:z -v /var/lib/glusterd:/var/lib/glusterd:z -v /var/log/glusterfs:/var/log/glusterfs:z -v /sys/fs/cgroup:/sys/fs/cgroup:ro -d --privileged=true --net=host -v /data/:/data ghcr.io/goingoffroading/glusterfs-server:latest
 
 # Kubernetes DaemonSet
 DaemonSets are kind of cool as they can deploy to all relevant nodes...  Which makes deployment easy, and future scalability VERY easy.

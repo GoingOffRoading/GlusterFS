@@ -1,6 +1,6 @@
 #Ubuntu Image
 FROM ubuntu:latest
-LABEL org.opencontainers.image.source=https://github.com/goingoffroading/glusterfs
+LABEL org.opencontainers.image.source = "https://github.com/GoingOffRoading/GlusterFS"
 
 # Install Gluster + dependancies 
 RUN apt-get update && \
