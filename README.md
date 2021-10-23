@@ -34,7 +34,7 @@ Full example from the [Gluser Docker Github](https://github.com/gluster/gluster-
 
     $ docker run -v /etc/glusterfs:/etc/glusterfs:z -v /var/lib/glusterd:/var/lib/glusterd:z -v /var/log/glusterfs:/var/log/glusterfs:z -v /sys/fs/cgroup:/sys/fs/cgroup:ro -d --privileged=true --net=host -v /data/:/data ghcr.io/goingoffroading/glusterfs-server:latest
 
-# Kubernetes DaemonSet
+## Kubernetes DaemonSet
 DaemonSets are kind of cool as they can deploy to all relevant nodes...  Which makes deployment easy, and future scalability VERY easy.
 
 Get the names of the relevant Nodes that are to be inlcuded in the Gluster Daemonset
@@ -62,17 +62,13 @@ $ kubectl label nodes gluster01-poweredge-r210-ii storagenode=glusterfs
 $ kubectl label nodes gluster02-poweredge-r210-ii storagenode=glusterfs
 $ kubectl label nodes gluster03-poweredge-r210-ii storagenode=glusterfs
 ```
-Assuming no changes from the Gluster-Kubernetes-Daemonset.yml file, run:
+Download the GlusterFS Server daemonset yml to your local, make change:
 ```
-$ kubectl apply -f https://github.com/GoingOffRoading/GlusterFS/blob/main/Gluster-Kubernetes-Daemonset.yml
+$ wget https://raw.githubusercontent.com/GoingOffRoading/GlusterFS/main/Gluster-Server-Kubernetes-Daemonset.yml
 ```
-Alternatively, download the file to your local:
+Edit the file as nessesary, and run it from your control node:
 ```
-$ wget https://raw.githubusercontent.com/GoingOffRoading/GlusterFS/main/Gluster-Kubernetes-Daemonset.yml
-```
-Edit the file as nessesary, and run it locally:
-```
-$ kubectl apply -f Gluster-Kubernetes-Daemonset.yml
+$ kubectl apply -f Gluster-Server-Kubernetes-Daemonset.yml
 ```
 Then get your Gluster pods
 ```
@@ -96,4 +92,53 @@ kubectl exec --stdin --tty CONTAINER-NAME -- /bin/bash
 From here, add Volumes, manage GlusterFS Server as needed
 
 # GlusterFS Client Docker Container
-Next in the project 
+For 
+## Docker-Run Example 
+
+```
+$ sudo docker pull ghcr.io/goingoffroading/glusterfs-client:latest
+$ sudo docker run --net host --privileged --name glusterserver ghcr.io/goingoffroading/glusterfs-client:latest
+```
+Add volumes as you see fit:
+
+Directory | Notes
+---------- | ----------
+/share | Really any directory works here.  This will be the directory you Gluster Volume maps to
+
+## Kubernetes Deployment
+
+Download the daemonset yml to your local, make change:
+```
+$ wget https://raw.githubusercontent.com/GoingOffRoading/GlusterFS/main/Gluster-Client-Kubernetes-Daemonset.yml
+```
+Edit the file as nessesary (like your volume file path), and run it from your control node:
+```
+$ kubectl apply -f Gluster-Server-Kubernetes-Daemonset.yml
+```
+Then get your Gluster pods
+```
+$ kubectl get pods -o wide | grep -e "NAME\|gluster"
+```
+Sample output:
+
+Found an issue that did not show up in the local Docker run testing... Investigating
+
+```
+$ kubectl get pods -o wide | grep -e "NAME\|gluster"
+```
+Next is to SSH into the Gluster Client pods to setup the cluster.
+```
+kubectl exec --stdin --tty CONTAINER-NAME -- /bin/bash
+```
+Join the Gluster Volume to the container volume:
+
+```
+$ mount -t glusterfs (GLUSTER-NODE-IP):/(GLUSTER-VOLUME-NAME) /(Volume)
+```
+Example:
+```
+$ mount -t glusterfs 192.168.1.102:/Gluster /Share
+```
+ls in the target directory to test success
+
+
