@@ -1,5 +1,12 @@
 # GlusterFS Server Docker Container
-For use in Docker & Kubernetes
+![Gluster Stuff](https://github.com/GoingOffRoading/GlusterFS/blob/main/gluster-ant.png)
+
+Gluster is a free and open source scalable network filesystem
+Gluster is a scalable network filesystem. 
+
+Using common off-the-shelf hardware, you can create large, distributed storage solutions for media streaming, data analysis, and other data- and bandwidth-intensive tasks. Gluster is free.
+
+The repo is for Gluster use in Docker & Kubernetes
 
 ## Problem Being Solved
 In my GlusterFS journey, there have been gaps that have been dificult to fill:
