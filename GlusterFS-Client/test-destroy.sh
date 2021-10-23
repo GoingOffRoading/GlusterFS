@@ -15,5 +15,4 @@ sudo docker container rm $container
 
 echo "Nuking Images"
 sleep 2
-sudo docker image rm ghcr.io/goingoffroading/glusterserver
 sudo docker image rm glusterserver

@@ -1,0 +1,31 @@
+---
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: glusterclient
+  labels:
+    app: glusterclient
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: glusterclient
+  template:
+    metadata:
+      labels:
+        app: glusterclient
+    spec:
+      containers:
+        - name: glusterclient
+          image: gluster/glusterfs-client:latest
+          imagePullPolicy: Always
+          volumeMounts:
+            - name: glusterclient
+              mountPath: "/data"
+      nodeName: gluster01-poweredge-r210-ii
+      volumes:
+      - name: glusterclient
+        hostPath:
+          path: "/home/gluster01/glusterclient"

@@ -2,7 +2,7 @@
 # Ubuntu image instead of Alpine for install simplicty of Launchpad: https://launchpad.net/~gluster/+archive/ubuntu/glusterfs-9
 
 FROM ubuntu:latest
-LABEL org.opencontainers.image.source=https://github.com/goingoffroading/glusterfs
+LABEL org.opencontainers.image.source = "= https://github.com/GoingOffRoading/GlusterFS"
 
 # Install Gluster + dependancies 
 RUN apt-get update && \
