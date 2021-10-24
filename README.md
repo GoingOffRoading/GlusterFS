@@ -144,7 +144,7 @@ $ mount -t glusterfs (GLUSTER-NODE-IP):/(GLUSTER-VOLUME-NAME) /(Volume)
 ```
 Example:
 ```
-$ mount -t glusterfs 192.168.1.102:/Gluster /Share
+$ mount -t glusterfs 192.168.1.102:/Gluster /data
 ```
 ls in the target directory to test success
 
